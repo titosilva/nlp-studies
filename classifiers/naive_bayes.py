@@ -7,6 +7,8 @@ class CustomNaiveBayes(BaseEstimator, ClassifierMixin):
         self.feature_probs = None
 
     def fit(self, X, y):
+        self.classes_ = np.unique(y)
+        
         # Calculate class probabilities
         self.class_probs = {
             label: np.mean(y == label) for label in np.unique(y)

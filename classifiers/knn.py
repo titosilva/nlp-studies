@@ -7,6 +7,7 @@ class CustomKNN(BaseEstimator, ClassifierMixin):
         self.k = k
 
     def fit(self, X, y):
+        self.classes_ = np.unique(y)
         self.X_train = X
         self.y_train = y
         return self

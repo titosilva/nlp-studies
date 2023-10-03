@@ -23,9 +23,29 @@ def build_tests() -> List[Tuple[str, Pipeline, Dict[str, Any]]]:
         ('clf', KNNGzip())
     ])
 
+    knn_pipeline_pre = Pipeline(steps=[
+        ('preproc', PreprocTransformer()),
+        ('vectorize', TfidfVectorizer()),
+        ('clf', CustomKNN())
+    ])
+
+    nb_pipeline_pre = Pipeline(steps=[
+        ('preproc', PreprocTransformer()),
+        ('vectorize', CountVectorizer()),
+        ('clf', CustomNaiveBayes())
+    ])
+
+    knn_gzip_pipeline_pre = Pipeline(steps=[
+        ('preproc', PreprocTransformer()),
+        ('clf', KNNGzip())
+    ])
+
     return [
-        ('knn', knn_pipeline, {'clf__k': [1, 15]}),
-        ('nb', nb_pipeline, {}),
-        ('knn_gzip', knn_gzip_pipeline, {'clf__k': [1, 15]}),
+        # ('knn', knn_pipeline, {'clf__k': [1, 15], 'vectorize__max_df': [0.95, 0.9, 0.85, 0.8]}),
+        # ('knn_pre', knn_pipeline_pre, {'clf__k': [1, 15], 'vectorize__max_df': [0.95, 0.9, 0.85, 0.8]}),
+        ('nb', nb_pipeline, {'vectorize__max_df': [0.95, 0.9, 0.85, 0.8], 'vectorize__min_df': [0.05, 0.1, 0.15, 0.2]}),
+        # ('nb_pre', nb_pipeline_pre, {'vectorize__max_df': [0.95, 0.9, 0.85, 0.8], 'vectorize__min_df': [0.05, 0.1, 0.15, 0.2]}),
+        # ('knn_gzip', knn_gzip_pipeline, {'clf__k': [1, 15], 'vectorize__max_df': [0.95, 0.9, 0.85, 0.8]}),
+        # ('knn_gzip_re', knn_gzip_pipeline_pre, {'clf__k': [1, 15], 'vectorize__max_df': [0.95, 0.9, 0.85, 0.8]}),
     ]
 
